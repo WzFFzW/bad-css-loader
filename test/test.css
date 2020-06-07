@@ -1,0 +1,15 @@
+.a {
+  margin: 0;
+}
+
+body {
+}
+
+body .a {
+  align-self: start;
+}
+
+.a, .b {
+  align-self: start;
+}
+.c .b {}
