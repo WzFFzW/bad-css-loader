@@ -1,15 +1,15 @@
-.a {
-  margin: 0;
+.rp-table {
+  .im-table-wrap .im-table th { padding: 0; text-indent: 5px; }
+  .im-table-wrap .im-table th:first-child { border-left: none; padding: 0; }
+  .im-table-wrap .im-table td:first-child { padding-left: 5px; }
 }
 
-body {
+.rp-com-table {
+  .rp-com-head {
+    width: 100%;
+    table-layout: fixed;
+    th { text-align: center; text-indent: 0 !important; }
+  }
+  .im-table-wrap .im-table .rp-com-head-title { text-align: center; border-bottom: 1px solid #ddd; }
+  .im-table-wrap .im-table th { border-left: 1px solid #ddd; }
 }
-
-body .a {
-  align-self: start;
-}
-
-.a, .b {
-  align-self: start;
-}
-.c .b {}

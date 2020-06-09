@@ -8,39 +8,32 @@ import postcss from 'postcss';
  * 3. 只验证过css。less，scss需要在验证
  */
 export default function loader(source, map, meta) {
-  let content = source;
+  let astRoot;
   // 如果postcss中已经编译了过css ast了，就复用
   if (meta) {
     const { ast } = meta;
-
-    if (
-      ast &&
-      ast.type === 'postcss' &&
-      satisfies(ast.version, `^${postcssPkg.version}`)
-    ) {
-      content = ast.root;
+    astRoot = ast.root;
+  } else {
+    astRoot = postcss.parse(source || '', { from: this.resourcePath });
+  }
+  const nodes = astRoot.nodes.filter((node) => node.type === 'rule');
+  for (let i = 0; i < nodes.length; i++) {
+    const { selector = '' } = nodes[i];
+    const selectors = selector.split(',');
+    let badSelector = '';
+    const isHasBadCssSelector = selectors.some((selector) => {
+      const result = /(^(\*|\w+)$)/.test(selector);
+      if (result) {
+        badSelector = selector;
+      }
+      return result;
+    });
+    if (isHasBadCssSelector) {
+      const errorMsg = `${this.resourcePath}有入侵式css,选择器为${badSelector}`;
+      this.emitWarning(errorMsg);
+      break;
     }
   }
-  postcss().process(content, { from: this.resourcePath }).then((result) => {
-    const nodes = result.root.nodes;
-    // 只遍历了第一层级，第二层级默认其有自己css的作用域
-    let badSelector = '';
-    for (let i = 0; i < nodes.length; i++) {
-      const { selectors } = nodes[i];
-      const isHasBadCssSelector = selectors.some((selector) => {
-        const result = /(^(\*|\w+)$)/.test(selector);
-        if (result) {
-          badSelector = selector;
-        }
-        return result;
-      });
-      if (isHasBadCssSelector) {
-        const errorMsg = `${this.resourcePath}有入侵式css   ${badSelector}`;
-        this.emitWarning(new Error(errorMsg));
-        console.log(errorMsg);
-        break;
-      }
-    }
-  });
-  return source;
+  this.callback(null, source, map, meta);
+  return;
 };
