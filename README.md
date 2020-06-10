@@ -24,18 +24,36 @@ body {
 {
   test: /\.css$/,
   use: [
-    ...
+    ... // 在css-loader之前调用
     'bad-css-loader',
     ...
   ],
 }
+{
+  test: /\.less$/,
+  use: [
+    'style-loader',
+    'css-loader', // 在css-loader之前调用, less-loader之后
+    'bad-css-loader',
+    'less-loader',
+  ],
+},
+{
+  test: /\.s(c|a)ss/,
+  use: [
+    'style-loader',
+    'css-loader', // 在css-loader之前调用，sass-loader之后
+    'bad-css-loader',
+    'sass-loader'
+  ],
+},
 ···
 ```
 
 ## TODO
 - [ ] 1. 增加一个更多入侵式css选择器的正则匹配
 - [ ] 2. 目前只检测了最外层级的css选择器，是否需要多验证全部层级（考虑中）
-- [ ] 3. 只验证过css。less，scss需要在验证
+- [x] 3. 只验证过css。less，scss需要在验证(已支持css，less，scss)
 
 # 开发
 > npm run dev

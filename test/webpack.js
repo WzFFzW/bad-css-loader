@@ -11,12 +11,40 @@ export default (fixture, options = {}) => {
       filename: 'bundle.js',
     },
     module: {
-      rules: [{
-        test: /\.css$/,
-        use: {
-          loader: path.resolve(__dirname, '../index.js'),
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: path.resolve(__dirname, '../index.js'),
+            },
+          ],
         },
-      }],
+        {
+          test: /\.less$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: path.resolve(__dirname, '../index.js'),
+            },
+            'less-loader',
+          ],
+        },
+        {
+          test: /\.s(c|a)ss/,
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: path.resolve(__dirname, '../index.js'),
+            },
+            'sass-loader'
+          ],
+        },
+      ],
     },
   });
 
@@ -25,7 +53,8 @@ export default (fixture, options = {}) => {
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err) reject(err);
-
+      console.log('errors', stats.compilation.errors);
+      console.log('warnings', stats.compilation.warnings);
       resolve(stats);
     });
   });
