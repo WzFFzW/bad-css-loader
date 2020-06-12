@@ -19,6 +19,11 @@ export default (fixture, options = {}) => {
             'css-loader',
             {
               loader: path.resolve(__dirname, '../index.js'),
+              options: {
+                enable: true,
+                include: /test/,
+                exclude: /src/,
+              },
             },
           ],
         },

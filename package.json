@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "loader-utils": "^2.0.0",
-    "postcss": "^7.0.32"
+    "postcss": "^7.0.32",
+    "schema-utils": "^2.7.0"
   }
 }

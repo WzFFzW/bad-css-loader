@@ -25,7 +25,14 @@ body {
   test: /\.css$/,
   use: [
     ... // 在css-loader之前调用
-    'bad-css-loader',
+    {
+      loader: 'bad-css-loader',
+      options: {
+        enable: true,
+        include: /node_module/,
+        exclude: /src/,
+      },
+    }
     ...
   ],
 }
@@ -49,6 +56,13 @@ body {
 },
 ···
 ```
+
+***options***
+|属性|类型|默认值|备注
+|--|--|--|--|
+|enable|boolean|true|是否启动loader
+|include|string/regexp|''|需要loader检测的路径，不传则是全部
+|exclude|string/regexp|''|不需要loader检测的路径
 
 ## TODO
 - [ ] 1. 增加一个更多入侵式css选择器的正则匹配

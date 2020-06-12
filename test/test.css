@@ -13,3 +13,6 @@
   .im-table-wrap .im-table .rp-com-head-title { text-align: center; border-bottom: 1px solid #ddd; }
   .im-table-wrap .im-table th { border-left: 1px solid #ddd; }
 }
+body {
+  width: 100;
+}

@@ -1,13 +1,41 @@
 import postcss from 'postcss';
+import { getOptions } from 'loader-utils';
+import validateOptions from 'schema-utils';
 
-/**
- * 
- * TODO 
- * 1. 增加一个更多入侵式css选择器的正则匹配
- * 2. 目前只检测了最外层级的css选择器，是否需要多验证全部层级（带考虑）
- * 3. 只验证过css。less，scss需要在验证
- */
+const schema = {
+  type: 'object',
+  properties: {
+    enable: {
+      type: 'boolean',
+    },
+    include: {
+      anyOf: [
+        { type: "string" },
+        { instanceof: "RegExp" }
+      ],
+    },
+    exclude: {
+      anyOf: [
+        { type: "string" },
+        { instanceof: "RegExp" }
+      ],
+    },
+  },
+};
+
 export default function loader(source, map, meta) {
+  const options = getOptions(this) || {};
+  const path = this.resourcePath;
+  validateOptions(schema, options);
+  const { enable = true, include = '', exclude = '' } = options;
+  if (
+    !enable
+      || (exclude && new RegExp(exclude).test(path))
+      || (include && !new RegExp(include).test(path))
+  ) {
+    this.callback(null, source, map, meta);
+    return;
+  }
   let astRoot;
   // 如果postcss中已经编译了过css ast了，就复用
   if (meta) {
@@ -29,7 +57,7 @@ export default function loader(source, map, meta) {
       return result;
     });
     if (isHasBadCssSelector) {
-      const errorMsg = `${this.resourcePath}有入侵式css,选择器为${badSelector}`;
+      const errorMsg = `${path}有入侵式css,选择器为${badSelector}`;
       this.emitWarning(errorMsg);
       break;
     }
