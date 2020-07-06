@@ -1,6 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import memoryfs from 'memory-fs';
+import { BadCssLog } from '../index';
 
 export default (fixture, options = {}) => {
   const compiler = webpack({
@@ -51,6 +52,9 @@ export default (fixture, options = {}) => {
         },
       ],
     },
+    plugins: [
+      new BadCssLog(),
+    ],
   });
 
   compiler.outputFileSystem = new memoryfs();

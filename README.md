@@ -57,6 +57,20 @@ body {
 ···
 ```
 
+# 提示优化
+bad-css-loader借用webpack直接输出warning，这样用户容易忽视这个提示。现增加自定义提示
+***使用方法***
+```js
+const { BadCssLog } = require('bad-css-loader');
+// ...webpack config
+{
+  plugins: [
+      ...otherPlugin
+      new BadCssLog(),
+    ],
+}
+```
+
 ***options***
 |属性|类型|默认值|备注
 |--|--|--|--|
@@ -68,6 +82,7 @@ body {
 - [ ] 1. 增加一个更多入侵式css选择器的正则匹配
 - [ ] 2. 目前只检测了最外层级的css选择器，是否需要多验证全部层级（考虑中）
 - [x] 3. 只验证过css。less，scss需要在验证(已支持css，less，scss)
+- [ ] 4. 提示自定义话
 
 # 开发
 > npm run dev

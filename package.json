@@ -1,6 +1,6 @@
 {
   "name": "bad-css-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "查找入侵式的第三发css样式",
   "main": "dist/index.js",
   "scripts": {
@@ -41,6 +41,7 @@
     "webpack": "^4.43.0"
   },
   "dependencies": {
+    "chalk": "^4.1.0",
     "loader-utils": "^2.0.0",
     "postcss": "^7.0.32",
     "schema-utils": "^2.7.0"

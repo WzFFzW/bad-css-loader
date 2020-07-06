@@ -1,6 +1,9 @@
 import postcss from 'postcss';
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
+import plugin from './plugin';
+
+export const BadCssLog = plugin;
 
 const schema = {
   type: 'object',
@@ -22,6 +25,8 @@ const schema = {
     },
   },
 };
+
+export const TAG = '@badCssLoader@';
 
 export default function loader(source, map, meta) {
   const options = getOptions(this) || {};
@@ -58,7 +63,9 @@ export default function loader(source, map, meta) {
     });
     if (isHasBadCssSelector) {
       const errorMsg = `${path}有入侵式css,选择器为${badSelector}`;
-      this.emitWarning(errorMsg);
+      const error = new Error(errorMsg);
+      error.tag = TAG;
+      this.emitWarning(error);
       break;
     }
   }
