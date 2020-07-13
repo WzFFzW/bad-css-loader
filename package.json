@@ -1,6 +1,6 @@
 {
   "name": "bad-css-loader",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "查找入侵式的第三发css样式",
   "main": "dist/index.js",
   "scripts": {

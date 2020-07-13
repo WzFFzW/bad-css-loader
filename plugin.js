@@ -18,7 +18,7 @@ BadCssPlugin.prototype.apply = function(complier) {
     });
     stats.compilation.warnings = restWarnings;
     badCssLoaderWarnings.map((error) => {
-      console.log(bgRed('Warning', error.message));
+      setTimeout(() => {console.log(bgRed('Warning', error.message))}, 0);
     });
   });
 }
