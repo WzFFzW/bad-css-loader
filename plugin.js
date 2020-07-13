@@ -10,7 +10,7 @@ BadCssPlugin.prototype.apply = function(complier) {
     const badCssLoaderWarnings = [];
     warnings.map((warning) => {
       const { warning: _warning = {} } = warning;
-      if (_warning.tag && _warning.tag.indexOf(TAG) > -1) {
+      if ((_warning.tag && _warning.tag.indexOf(TAG) > -1) || warning.message.indexOf(TAG) > -1) {
         badCssLoaderWarnings.push(warning);
       } else {
         restWarnings.push(warning);
@@ -18,7 +18,7 @@ BadCssPlugin.prototype.apply = function(complier) {
     });
     stats.compilation.warnings = restWarnings;
     badCssLoaderWarnings.map((error) => {
-      console.log(bgRed('badCssLoader检测', error.details));
+      console.log(bgRed('Warning', error.message));
     });
   });
 }

@@ -1,13 +1,14 @@
 {
   "name": "bad-css-loader",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "查找入侵式的第三发css样式",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest test/loader.test.js",
     "test:watch": "jest test/loader.test.js --watch",
     "dev": "nodemon --exec npx babel-node ./server.js",
-    "build": "npx babel ./index.js -o ./dist/index.js"
+    "build": "npx babel ./index.js ./plugin.js --out-dir ./dist/",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

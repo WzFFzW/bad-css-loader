@@ -62,7 +62,7 @@ export default function loader(source, map, meta) {
       return result;
     });
     if (isHasBadCssSelector) {
-      const errorMsg = `${path}有入侵式css,选择器为${badSelector}`;
+      const errorMsg = `${TAG}:${path}有入侵式css,选择器为${badSelector}`;
       const error = new Error(errorMsg);
       error.tag = TAG;
       this.emitWarning(error);
