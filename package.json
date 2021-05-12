@@ -44,7 +44,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "loader-utils": "^2.0.0",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.10",
     "schema-utils": "^2.7.0"
   }
 }
